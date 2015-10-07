@@ -129,7 +129,6 @@ public class LexSyntactics extends javax.swing.JFrame {
             Sintatico sin = new Sintatico();
             Semantico sen = new Semantico();
             sin.parse(lex, sen);
-            //System.out.println(pilha.pop());
         } catch (Exception ex) {
             System.err.println(ex);
         }
