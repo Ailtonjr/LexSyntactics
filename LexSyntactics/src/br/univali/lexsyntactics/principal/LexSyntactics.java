@@ -1,14 +1,21 @@
 
 package br.univali.lexsyntactics.principal;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class LexSyntactics extends javax.swing.JFrame {
 
     public static String html = "<html>\n";
+    private String htmlGravacao = "";
 
     public LexSyntactics() {
         initComponents();
@@ -106,6 +113,11 @@ public class LexSyntactics extends javax.swing.JFrame {
         panelGeral.add(jPanel1, gridBagConstraints);
 
         buttonSalvar.setText("Salvar");
+        buttonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSalvarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -132,10 +144,35 @@ public class LexSyntactics extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.err.println(ex);
         }
-
+        htmlGravacao = html;
         labelPreview.setText(html);
         html = "<html>\n";
     }//GEN-LAST:event_buttonVisualizarActionPerformed
+
+    private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
+        if (!htmlGravacao.equals("")) {
+            try {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Pagina HTML", "html");
+                fileChooser.setFileFilter(filter);
+                
+                int option = fileChooser.showSaveDialog(null);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    FileWriter fw = new FileWriter(fileChooser.getSelectedFile() + ".html");
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(htmlGravacao);
+                    
+                    bw.close();
+                    fw.close();
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao salvar arquivo");
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "É necessário escrever um texto para salvar.");
+        }
+    }//GEN-LAST:event_buttonSalvarActionPerformed
 
     public static void main(String args[]) {
         try {
